@@ -1,0 +1,46 @@
+     #regression
+
+import pandas as pd
+import quandl
+import math
+
+df = quandl.get('WIKI/GOOGL')
+
+print(df.head())
+
+df = df[['Adj. Open', 'Adj. High', 'Adj. Low', 'Adj. Close', 'Adj. Volume',]]
+#High and low show volatility through the day
+#Open is start price 
+#Volume is how many trades took place that day
+
+
+# Lets find % volatility for the day
+df['HL_PCT'] = (df['Adj. High'] - df['Adj. Close']) / df['Adj. Close'] * 100.0
+                                 #((High-Low)/ Low) x 100
+
+#Now find daily % change
+df['PCT_CHNG'] = (df['Adj. Close'] - df['Adj. Open']) / df['Adj. Open'] * 100.0
+
+
+df = df[['Adj. Close', 'HL_PCT', 'PCT_CHNG', 'Adj. Volume']]
+
+#------------------------------------------------------------------------------
+#Define Features and Labels
+
+forecast_column = 'Adj. Close'
+df.fillna(-99999, inplace= True)       #in case there are NA's in data, fill it in as....
+
+forecast_out = int(math.ceil(0.01*len(df)))     #Regression algoritham 
+#Now we have our features
+#math.ceil rounds everything up the nearest whole
+#math.ceil returns a float which we dont want, we use int() to return an integer
+#we are trying to predict out 10% of the dataframe
+
+#Labels
+df['label'] = df[forecast_column].shift(-forecast_out)
+ 
+#forcasting price 10% into future
+
+print(df.head())     #head prints first 5 columns
+
+
