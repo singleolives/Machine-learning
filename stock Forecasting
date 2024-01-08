@@ -1,4 +1,4 @@
-            #using machine learning models to forecast stock prices
+                        #using machine learning models to forecast stock prices
 import quandl
 import numpy as numpy
 from sklearn.linear_model import LinearRegression
@@ -9,6 +9,12 @@ from sklearn.model_selection import train_test_split     #method being used to s
 df = quandl.get("WIKI/TSLA")   #df = dataframe
 print(df.head())                #Take a look at the data
 
-#we only care about the adjusted close, so lets isolate it and re-print
-df = df[['Adj. Close']]
+   #we only care about the adjusted close, so lets isolate it and re-print
+df = df[['Adj. Close']]          #in this case, Adj. Close is our Independant Variable
 print(df.head())
+
+#Now, lets create a variable to predict out into the future
+forecast = 1                         #how many 'n' days out 
+                #Creating another column using the shift method so we have a Dependant Variable
+df['Prediction'] = df[['Adj. Close']].shift(-1)         #Because we want to shift our data up 'n' days
+print(df.tail())                            #At this point, the program does not tell us the prediction value of a future date yet
