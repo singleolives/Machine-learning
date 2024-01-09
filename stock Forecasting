@@ -1,4 +1,4 @@
-            #using machine learning models to forecast stock prices
+                #using machine learning models to forecast stock prices
 import quandl
 import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -14,7 +14,7 @@ df = df[['Adj. Close']]          #in this case, Adj. Close is our Independant Va
 print(df.head())
 
 #Now, lets create a variable to predict out into the future
-forecast = 2                         #how many 'n' days out 
+forecast = 7                         #how many 'n' days out 
                 #Creating another column using the shift method so we have a Dependant Variable
 df['Prediction'] = df[['Adj. Close']].shift(-forecast)         #Because we want to shift our data up 'n' days
 print(df.tail())                            #At this point, the program does not tell us the prediction value of a future date yet
@@ -27,3 +27,16 @@ X = np.array(df.drop(columns=['Prediction']))
       #Now remove the last 'n' rows
 X = X[:-forecast]
 print(X)
+
+###########################################################################################################
+
+#Now create a Dependant Variable dataset Y
+#Convert datframe again to array
+Y = np.array(df['Prediction'])        #This will still show all values including NaN's, more manipulation will have to be done 
+       #Now get all Y values except last 'n' days (same as before with X)
+Y = Y[:forecast]
+print(Y)
+
+#########################################################################################################
+
+#Now, lets split the model into 80% training and 20% testing
