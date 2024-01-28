@@ -77,8 +77,4 @@ print(Lr_Prediction)
 #Print Support Vector Regresor(SVR) Model predictions for the next 'n' days
 svm_Prediction = svr_rbf.predict(X_forecast)
 
-
-
-###
 print(svm_Prediction)
-
